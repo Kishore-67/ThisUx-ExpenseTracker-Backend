@@ -9,7 +9,8 @@ app.use(cors());
 app.use(express.json());
 
 // MongoDB Connection
-const MONGO_URI = 'mongodb+srv://kishorep:mongopass@e-t-cluster.aoe8mjn.mongodb.net/transactionsDB?retryWrites=true&w=majority&appName=E-T-Cluster';
+//const MONGO_URI = 'mongodb+srv://kishorep:mongopass@e-t-cluster.aoe8mjn.mongodb.net/transactionsDB?retryWrites=true&w=majority&appName=E-T-Cluster';
+const MONGO_URI = process.env.mongodb_uri;
 mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
