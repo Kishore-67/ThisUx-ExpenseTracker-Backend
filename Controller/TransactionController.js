@@ -24,3 +24,20 @@ exports.addTransaction = async (req, res) => {
     res.status(500).json({ error: 'Failed to add transaction' });
   }
 };
+exports.updateTransaction = async (req, res) => {
+  try {
+    const updated = await Transaction.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.json(updated);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update transaction' });
+  }
+};
+
+exports.deleteTransaction = async (req, res) => {
+  try {
+    await Transaction.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Transaction deleted' });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to delete transaction' });
+  }
+};
