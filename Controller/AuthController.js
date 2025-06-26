@@ -1,5 +1,7 @@
+const jwt = require('jsonwebtoken');
 const User = require('../model/User');
 
+// Signup Controller
 exports.signup = async (req, res) => {
   const { username, email, password } = req.body;
 
@@ -18,7 +20,7 @@ exports.signup = async (req, res) => {
   res.status(201).json({ message: 'User registered successfully' });
 };
 
-
+// Signin Controller
 exports.signin = async (req, res) => {
   const { email, password } = req.body;
 
@@ -26,13 +28,19 @@ exports.signin = async (req, res) => {
     return res.status(400).json({ error: 'Email and password required' });
   }
 
-  const user = await User.findOne({ email }); // Get user by email
+  const user = await User.findOne({ email });
   if (!user || user.password !== password) {
     return res.status(401).json({ error: 'Invalid credentials' });
   }
 
+  // Create simple token
+  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN,
+  });
+
   res.status(200).json({
     message: 'Login successful',
-    user: { username: user.username, email: user.email }
+    token,
+    user: { username: user.username, email: user.email },
   });
 };

@@ -1,13 +1,25 @@
 const Transaction = require('../model/Expense');
 
+// exports.getAllTransactions = async (req, res) => {
+//   try {
+//     const transactions = await Transaction.find();
+//     res.json(transactions);
+//   } catch (error) {
+//     res.status(500).json({ error: 'Failed to fetch transactions' });
+//   }
+// };
 exports.getAllTransactions = async (req, res) => {
+  console.log("🟢 Inside getAllTransactions");
   try {
-    const transactions = await Transaction.find();
-    res.json(transactions);
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch transactions' });
+    // Replace this with actual DB call
+    const transactions = await Transaction.find(); // or filter by userId later
+    res.status(200).json(transactions);
+  } catch (err) {
+    console.error("❌ Error fetching transactions", err);
+    res.status(500).json({ error: 'Server error' });
   }
 };
+
 
 exports.addTransaction = async (req, res) => {
   const { type, date, amount, category, notes } = req.body;
